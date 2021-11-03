@@ -30,8 +30,8 @@ export default {
     Pagination
   },
   computed: {
-    ...mapState(['movies', 'movieModal']),
-    ...mapGetters(['filterMovies'])
+    ...mapState(['movies', 'filterMovies', 'movieModal']),
+    ...mapGetters(['filterMovies']),
     // ...mapState({
     //   movies: state => state.movies,
     //   movieModal: state => state.movieModal
@@ -41,6 +41,10 @@ export default {
     // }
   },
   created() {
+    this.$store.dispatch("fetchMovies")
+    // this.$store.dispatch("fetchFilterMovies")
+  },
+  mounted() {
     this.$store.dispatch("fetchMovies")
   }
 }

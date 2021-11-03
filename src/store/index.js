@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import {filters} from '../assets/scripts/filters'
+
 
 const BASE_URL = "https://movie-list.alphacamp.io";
 const INDEX_URL = BASE_URL + "/api/v1/movies/";
@@ -37,12 +39,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     movies: [],
+    filterMovies: [],
     movieModal: {},
-    searchInput: ''
+    searchInput: '',
+    currentState: 'all'
   },
   getters: {
-    filterMovies: state => {
-      return state.movies.filter(movie => movie.title.trim().toLowerCase().includes(state.searchInput))
+    filterMovies(state) {
+      return filters[state.currentState](state.movies).filter(movie => movie.title.trim().toLowerCase().includes(state.searchInput))
     }
   },
   // mutation必定是同步函數，沒有例外
@@ -58,6 +62,20 @@ export default new Vuex.Store({
     },
     clearKeyword(state) {
       state.searchInput = ''
+    },
+    likeMovie(state, id) {
+      state.movies = state.movies.map((movie) => {
+        if(movie.id === id) {
+          movie.liked = true
+        }
+      })
+    },
+    dislikeMovie(state, id) {
+      state.movies = state.movies.map((movie) => {
+        if (movie.id === id) {
+          movie.liked = false
+        }
+      })
     }
   },
   // 先在aciton中處理可能的非同步請求，當取得對應的資料後，接著再透過mutation以處理同步的方式變更state的資料
@@ -82,6 +100,12 @@ export default new Vuex.Store({
     },
     clearSearchInput({ commit }) {
       commit("clearKeyword")
+    },
+    fetchLike({ commit }, id) {
+      commit("likeMovie", id)
+    },
+    fetchDislike({ commit, getters }, id) {
+      commit("dislikeMovie", {id, getters})
     }
   },
 })

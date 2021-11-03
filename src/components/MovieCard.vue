@@ -15,26 +15,46 @@
         >
           More
         </button>
+        <button 
+          v-if="!movie.liked" 
+          class="btn btn-danger"
+          @click="likedMovie(movie.id)"
+        >
+          Like
+        </button>
+        <button 
+          v-else 
+          class="btn btn-outline--danger"
+          @click="dislikedMovie(movie.id)"
+        >
+          Dislike
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import { mapActions } from "vuex";
 export default {
-  name: 'MovieCard',
+  name: "MovieCard",
   props: {
     movie: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
-    ...mapActions(["fetchMovieModal"]),
+    ...mapActions(["fetchMovieModal", "fetchLike", "fetchDislike"]),
     getMovieModal(movieId) {
-      this.fetchMovieModal(movieId)
+      this.fetchMovieModal(movieId);
+    },
+    likedMovie(movieId) {
+      this.fetchLike(movieId)
+    },
+    dislikedMovie(movieId) {
+      this.fetchDislike(movieId)
     }
-  }
-}
+  },
+};
 </script>

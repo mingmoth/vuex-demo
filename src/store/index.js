@@ -36,28 +36,52 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    movies: []
+    movies: [],
+    movieModal: {},
+    searchInput: ''
+  },
+  getters: {
+    filterMovies: state => {
+      return state.movies.filter(movie => movie.title.trim().toLowerCase().includes(state.searchInput))
+    }
   },
   // mutation必定是同步函數，沒有例外
   mutations: {
     getMovies(state, movies) {
       state.movies = movies
+    },
+    getMovieModal(state, id) {
+      state.movieModal = state.movies.find(movie => movie.id === id)
+    },
+    getSearchInput(state, keyword) {
+      state.searchInput = keyword.trim().toLowerCase()
+    },
+    clearKeyword(state) {
+      state.searchInput = ''
     }
   },
-  getters: {},
   // 先在aciton中處理可能的非同步請求，當取得對應的資料後，接著再透過mutation以處理同步的方式變更state的資料
   actions: {
-    async fetchMovies({commit}) {
-       try {
-         const response = await axios.get(INDEX_URL)
-         commit('getMovies', response.data.results.map(movie => ({
-           ...movie,
-           image: POSTER_URL + movie.image,
-           liked: false
-         })))
-       } catch (error) {
-         console.log(error)
-       }
+    async fetchMovies({ commit }) {
+      try {
+        const response = await axios.get(INDEX_URL)
+        commit('getMovies', response.data.results.map(movie => ({
+          ...movie,
+          image: POSTER_URL + movie.image,
+          liked: false
+        })))
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    fetchMovieModal({ commit }, id) {
+      commit("getMovieModal", id)
+    },
+    fetchSearchInput({ commit }, keyword) {
+      commit("getSearchInput", keyword)
+    },
+    clearSearchInput({ commit }) {
+      commit("clearKeyword")
     }
   },
 })

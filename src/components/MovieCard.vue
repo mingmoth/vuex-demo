@@ -9,8 +9,9 @@
       <div class="card-footer">
         <button
           class="btn btn-primary btn-show-movie"
-          data-toggle="modal"
-          data-target="#show-movie-modal"
+          data-bs-toggle="modal"
+          data-bs-target="#show-movie-modal"
+          @click="getMovieModal(movie.id)"
         >
           More
         </button>
@@ -20,12 +21,19 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: 'MovieCard',
   props: {
     movie: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    ...mapActions(["fetchMovieModal"]),
+    getMovieModal(movieId) {
+      this.fetchMovieModal(movieId)
     }
   }
 }

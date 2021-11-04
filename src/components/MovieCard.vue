@@ -18,14 +18,14 @@
         <button 
           v-if="!movie.liked" 
           class="btn btn-danger"
-          @click="likedMovie(movie.id)"
+          @click="updateLiked(movie.id)"
         >
           Like
         </button>
         <button 
           v-else 
           class="btn btn-outline--danger"
-          @click="dislikedMovie(movie.id)"
+          @click="updateDisliked(movie.id)"
         >
           Dislike
         </button>
@@ -45,15 +45,15 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["fetchMovieModal", "fetchLike", "fetchDislike"]),
+    ...mapActions(["fetchMovieModal", "updateMovieLiked", "updateMovieDisliked"]),
     getMovieModal(movieId) {
       this.fetchMovieModal(movieId);
     },
-    likedMovie(movieId) {
-      this.fetchLike(movieId)
+    updateLiked(movieId) {
+      this.updateMovieLiked(movieId)
     },
-    dislikedMovie(movieId) {
-      this.fetchDislike(movieId)
+    updateDisliked(movieId) {
+      this.updateMovieDisliked(movieId)
     }
   },
 };

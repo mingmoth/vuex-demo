@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import {filters} from '../assets/scripts/filters'
+// import { filters } from '../assets/scripts/filters'
 
 
 const BASE_URL = "https://movie-list.alphacamp.io";
@@ -36,7 +36,7 @@ Vue.use(Vuex)
 // }
 
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state: {
     movies: [],
     filterMovies: [],
@@ -45,38 +45,50 @@ export default new Vuex.Store({
     currentState: 'all'
   },
   getters: {
-    filterMovies(state) {
-      return filters[state.currentState](state.movies).filter(movie => movie.title.trim().toLowerCase().includes(state.searchInput))
+    likedMovies(state) {
+      return state.movies.filter(movie => movie.liked).filter(movie => movie.title.trim().toLowerCase().includes(state.searchInput))
     }
+    // filterMovies(state) {
+    //   return filters[state.currentState](state.movies).filter((movie) => 
+    //     movie.title.trim().toLowerCase().includes(state.searchInput)
+    //   )
+    // }
   },
   // mutation必定是同步函數，沒有例外
   mutations: {
     getMovies(state, movies) {
       state.movies = movies
+      state.filterMovies = state.movies
+    },
+    getfilterMovies(state) {
+      state.filterMovies = state.movies.filter(movie => movie.title.trim().toLowerCase().includes(state.searchInput))
     },
     getMovieModal(state, id) {
       state.movieModal = state.movies.find(movie => movie.id === id)
     },
     getSearchInput(state, keyword) {
-      state.searchInput = keyword.trim().toLowerCase()
+      console.log(keyword)
+      state.searchInput = keyword
     },
     clearKeyword(state) {
       state.searchInput = ''
+      state.filterMovies = state.movies
     },
-    likeMovie(state, id) {
-      state.movies = state.movies.map((movie) => {
-        if(movie.id === id) {
+    MovieLiked(state, moveiId) {
+      state.movies.forEach((movie) => {
+        if (movie.id === moveiId) {
           movie.liked = true
         }
       })
     },
-    dislikeMovie(state, id) {
-      state.movies = state.movies.map((movie) => {
-        if (movie.id === id) {
+    MovieDisliked(state, movieId) {
+      state.movies.forEach((movie) => {
+        if (movie.id === movieId) {
           movie.liked = false
         }
       })
     }
+
   },
   // 先在aciton中處理可能的非同步請求，當取得對應的資料後，接著再透過mutation以處理同步的方式變更state的資料
   actions: {
@@ -92,6 +104,10 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
+    fetchFilterMovies({ commit }) {
+      // const filterResults = filters[this.state.currentState](this.state.movies)
+      commit("getfilterMovies")
+    },
     fetchMovieModal({ commit }, id) {
       commit("getMovieModal", id)
     },
@@ -101,11 +117,15 @@ export default new Vuex.Store({
     clearSearchInput({ commit }) {
       commit("clearKeyword")
     },
-    fetchLike({ commit }, id) {
-      commit("likeMovie", id)
+    updateMovieLiked({ commit }, id) {
+      commit("MovieLiked", id)
     },
-    fetchDislike({ commit, getters }, id) {
-      commit("dislikeMovie", {id, getters})
+    updateMovieDisliked({ commit }, id) {
+      commit("MovieDisliked", id)
     }
   },
 })
+
+store.dispatch("fetchMovies")
+
+export default store

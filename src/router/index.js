@@ -12,6 +12,11 @@ const routes = [
     component: Movies
   },
   {
+    path: '/favorites',
+    name: 'movies-fav',
+    component: () => import('../views/MoviesFav.vue')
+  },
+  {
     path: '*',
     name: 'Not-Found',
     component: NotFound

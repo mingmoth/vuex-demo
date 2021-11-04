@@ -12,7 +12,7 @@
       <button
         type="submit"
         class="btn btn-primary mb-2"
-        @click.stop.prevent="fetchSearch(keyword)"
+        @click.prevent="fetchSearch(keyword)"
       >
         Search
       </button>
@@ -37,9 +37,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchSearchInput", "clearSearchInput"]),
+    ...mapActions(["fetchSearchInput", "clearSearchInput", "fetchFilterMovies"]),
     fetchSearch(keyword) {
       this.fetchSearchInput(keyword)
+      this.fetchFilterMovies()
+      this.keyword = ''
     },
     clearInput() {
       this.clearSearchInput()

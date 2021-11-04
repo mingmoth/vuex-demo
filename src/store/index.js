@@ -75,8 +75,9 @@ const store = new Vuex.Store({
       state.movieModal = state.movies.find(movie => movie.id === id)
     },
     getSearchInput(state, keyword) {
-      console.log(keyword)
+
       state.searchInput = keyword
+      state.currentPage = 1
     },
     clearKeyword(state) {
       state.searchInput = ''

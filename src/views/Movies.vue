@@ -39,23 +39,5 @@ export default {
     //   return this.$store.state.movies
     // }
   },
-  created() {
-    console.log('created')
-  },
-  mounted() {
-    console.log('mounted')
-  },
-  updated() {
-    console.log('updated')
-  },
-  // watch: {
-  //   movies: {
-  //     handler: function() {
-  //       console.log('saveStorage')
-  //       this.saveStorage()
-  //     },
-  //     deep: true
-  //   }
-  // }
 }
 </script>

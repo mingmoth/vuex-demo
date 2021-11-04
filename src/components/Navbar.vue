@@ -1,7 +1,9 @@
 <template>
   <div class="nav bg-light">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <router-link to="/" class="navbar-brand">Movie List</router-link>
+      <li @click.stop.prevent="clearInput">
+        <router-link to="/" class="navbar-brand">Movie List</router-link>
+      </li>
       <button
         class="navbar-toggler"
         type="button"

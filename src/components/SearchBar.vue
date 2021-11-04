@@ -1,7 +1,7 @@
 <template>
   <div class="row" id="search-bar">
     <form id="search" class="form-inline">
-      <label class="sr-only" for="inlineFormInputName2">Name</label>
+      <label class="sr-only" for="inlineFormInputName2"></label>
       <input
         v-model="keyword"
         type="text"

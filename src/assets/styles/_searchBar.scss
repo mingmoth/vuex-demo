@@ -1,0 +1,12 @@
+#search-bar {
+  margin-top: 48px;
+}
+form {
+  display: flex;
+  .form-control {
+    width: 250px;
+  }
+  button {
+    margin-left: 8px;
+  }
+}

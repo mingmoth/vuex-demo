@@ -1,6 +1,5 @@
 <template>
   <div class="main">
-    <h1>Main</h1>
     <SearchBar />
     <div class="row">
       <MovieCard 

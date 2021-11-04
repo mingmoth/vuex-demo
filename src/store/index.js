@@ -42,11 +42,19 @@ const store = new Vuex.Store({
     filterMovies: [],
     movieModal: {},
     searchInput: '',
-    currentState: 'all'
+    currentState: 'all',
+    moviePerPage: 8,
+    currentPage: 2,
   },
   getters: {
     likedMovies(state) {
       return state.movies.filter(movie => movie.liked).filter(movie => movie.title.trim().toLowerCase().includes(state.searchInput))
+    },
+    movieByPageAll(state) {
+      return state.filterMovies.slice((state.currentPage - 1)* state.moviePerPage, (state.currentPage * state.moviePerPage))
+    },
+    moviesByPageFav(state, getters) {
+      return getters.likedMovies.slice((state.currentPage - 1) * state.moviePerPage, (state.currentPage * state.moviePerPage))
     }
     // filterMovies(state) {
     //   return filters[state.currentState](state.movies).filter((movie) => 
@@ -73,6 +81,7 @@ const store = new Vuex.Store({
     clearKeyword(state) {
       state.searchInput = ''
       state.filterMovies = state.movies
+      state.currentPage = 1
     },
     MovieLiked(state, moveiId) {
       state.movies.forEach((movie) => {
@@ -87,6 +96,9 @@ const store = new Vuex.Store({
           movie.liked = false
         }
       })
+    },
+    setCurrentPage(state, page) {
+      state.currentPage = page
     }
 
   },
@@ -122,6 +134,9 @@ const store = new Vuex.Store({
     },
     updateMovieDisliked({ commit }, id) {
       commit("MovieDisliked", id)
+    },
+    handlePage({commit}, page) {
+      commit("setCurrentPage", page)
     }
   },
 })

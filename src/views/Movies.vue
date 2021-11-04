@@ -4,12 +4,12 @@
     <SearchBar />
     <div class="row">
       <MovieCard 
-        v-for="movie in filterMovies"
+        v-for="movie in movieByPageAll"
         :key="movie.id"
         :movie="movie"/>
     </div>
     <MovieModal :movieModal="movieModal"/>
-    <Pagination />
+    <Pagination :movies="filterMovies"/>
   </div>
 </template>
 
@@ -20,7 +20,7 @@ import MovieCard from '../components/MovieCard.vue'
 import MovieModal from '../components/MovieModal.vue'
 import Pagination from '../components/Pagination.vue'
 
-import {mapState} from 'vuex'
+import {mapState, mapGetters} from 'vuex'
 export default {
   name: 'Movies',
   components: {
@@ -30,7 +30,8 @@ export default {
     Pagination
   },
   computed: {
-    ...mapState(['movies', 'movieModal', 'filterMovies', 'currentState', 'searchInput']),
+    ...mapState(['movies', 'movieModal', 'filterMovies', 'currentState', 'searchInput', 'currentPage']),
+    ...mapGetters(["movieByPageAll"]),
     // ...mapState({
     //   movies: state => state.movies,
     //   movieModal: state => state.movieModal

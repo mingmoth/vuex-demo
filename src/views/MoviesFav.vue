@@ -4,12 +4,12 @@
     <SearchBar />
     <div class="row">
       <MovieCard 
-        v-for="movie in likedMovies"
+        v-for="movie in moviesByPageFav"
         :key="movie.id"
         :movie="movie"/>
     </div>
     <MovieModal :movieModal="movieModal"/>
-    <Pagination />
+    <Pagination :movies="likedMovies"/>
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     ...mapState(['movieModal', 'searchInput']),
-    ...mapGetters(['likedMovies'])
+    ...mapGetters(['likedMovies', "moviesByPageFav"])
   }
 }
 </script>

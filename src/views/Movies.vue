@@ -2,42 +2,42 @@
   <div class="main">
     <SearchBar />
     <div class="row" id="data-panel">
-      <MovieCard 
+      <MovieCard
         v-for="movie in movieByPageAll"
         :key="movie.id"
-        :movie="movie"/>
+        :movie="movie"
+      />
     </div>
-    <MovieModal :movieModal="movieModal"/>
-    <Pagination :movies="filterMovies"/>
+    <MovieModal :movieModal="movieModal" />
+    <Pagination :movies="filterMovies" />
   </div>
 </template>
 
 <script>
+import SearchBar from "../components/SearchBar.vue";
+import MovieCard from "../components/MovieCard.vue";
+import MovieModal from "../components/MovieModal.vue";
+import Pagination from "../components/Pagination.vue";
 
-import SearchBar from '../components/SearchBar.vue'
-import MovieCard from '../components/MovieCard.vue'
-import MovieModal from '../components/MovieModal.vue'
-import Pagination from '../components/Pagination.vue'
-
-import {mapState, mapGetters} from 'vuex'
+import { mapState, mapGetters } from "vuex";
 export default {
-  name: 'Movies',
+  name: "Movies",
   components: {
     SearchBar,
     MovieCard,
     MovieModal,
-    Pagination
+    Pagination,
   },
   computed: {
-    ...mapState(['movies', 'movieModal', 'filterMovies', 'currentState', 'searchInput', 'currentPage']),
+    ...mapState([
+      "movies",
+      "movieModal",
+      "filterMovies",
+      "currentState",
+      "searchInput",
+      "currentPage",
+    ]),
     ...mapGetters(["movieByPageAll"]),
-    // ...mapState({
-    //   movies: state => state.movies,
-    //   movieModal: state => state.movieModal
-    // })
-    // movies() {
-    //   return this.$store.state.movies
-    // }
   },
-}
+};
 </script>

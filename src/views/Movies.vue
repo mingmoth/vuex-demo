@@ -19,7 +19,7 @@ import MovieCard from "../components/MovieCard.vue";
 import MovieModal from "../components/MovieModal.vue";
 import Pagination from "../components/Pagination.vue";
 
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters} from "vuex";
 export default {
   name: "Movies",
   components: {
@@ -39,5 +39,8 @@ export default {
     ]),
     ...mapGetters(["movieByPageAll"]),
   },
+  // created: {
+  //   ...mapActions(["fetchMovies"]),
+  // }
 };
 </script>

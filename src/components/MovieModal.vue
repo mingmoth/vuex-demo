@@ -13,14 +13,6 @@
           <h5 class="modal-title" id="show-movie-title">
             {{ movieModal.title }}
           </h5>
-          <!-- <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">×</span>
-          </button> -->
         </div>
         <div class="modal-body" id="show-movie-body">
           <div class="row">

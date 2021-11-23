@@ -1,40 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-// import { filters } from '../assets/scripts/filters'
-
 
 const BASE_URL = "https://movie-list.alphacamp.io";
 const INDEX_URL = BASE_URL + "/api/v1/movies/";
 const POSTER_URL = BASE_URL + "/posters/";
 
 Vue.use(Vuex)
-
-// const state = {
-//   movies: []
-// }
-
-// const getters = {}  
-// const actions = {
-//   fetchMovies({ commit }) {
-//     axios.get(INDEX_URL)
-//       .then(response => {
-//         commit('GET_MOVIES', response.data.results.map(movie => ({
-//           ...movie,
-//           image: POSTER_URL + movie.image,
-//           liked: false
-//         })))
-//       })
-//       .catch(error => console.log(error))
-//   }
-// }
-
-// const mutations = {
-//   GET_MOVIES(state, movies) {
-//     state.movies = movies
-//   }
-// }
-
 
 const store = new Vuex.Store({
   state: {
@@ -44,7 +16,7 @@ const store = new Vuex.Store({
     searchInput: '',
     currentState: 'all',
     moviePerPage: 8,
-    currentPage: 2,
+    currentPage: 1,
   },
   getters: {
     likedMovies(state) {
@@ -56,11 +28,6 @@ const store = new Vuex.Store({
     moviesByPageFav(state, getters) {
       return getters.likedMovies.slice((state.currentPage - 1) * state.moviePerPage, (state.currentPage * state.moviePerPage))
     }
-    // filterMovies(state) {
-    //   return filters[state.currentState](state.movies).filter((movie) => 
-    //     movie.title.trim().toLowerCase().includes(state.searchInput)
-    //   )
-    // }
   },
   // mutation必定是同步函數，沒有例外
   mutations: {
@@ -118,7 +85,6 @@ const store = new Vuex.Store({
       }
     },
     fetchFilterMovies({ commit }) {
-      // const filterResults = filters[this.state.currentState](this.state.movies)
       commit("getfilterMovies")
     },
     fetchMovieModal({ commit }, id) {
